@@ -11,3 +11,96 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+.container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 33%;
+  background-color: #ffffff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #eeeeee;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-item:hover {
+  background-color: #f4f4f4;
+}
+
+.sidebar-item img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.sidebar-item-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-item-text p {
+  margin: 5px 0;
+  color: #333;
+}
+
+.main {
+  width: 67%;
+  background-color: #11406A;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.main-messages {
+  padding: 20px;
+  color: white;
+  overflow-y: auto;
+}
+
+.main-input {
+  display: flex;
+  padding: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.main-input textarea {
+  flex-grow: 1;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  resize: none;
+}
+
+.main-input button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #11406A;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.main-input button:hover {
+  background-color: #0e3050;
+}
