@@ -1,58 +1,89 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
+import avatar from './4792929.png';
 
 const socket = io('http://localhost:4000');
 
-function SupportApp() {
+function App() {
+  const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
-  const [response, setResponse] = useState('');
-  const [currentUser, setCurrentUser] = useState('');
+  const [messagesSide, setMessagesSide] = useState([]);
+  const [clients, setClients] = useState([]);
+  const [currentClientId, setCurrentClientId] = useState('');
 
   useEffect(() => {
-    socket.emit('supportJoin'); // Suporte se junta à sala de suporte
+    socket.emit('joinRoom', { room: 'support' });
 
-    socket.on('message', (message) => {
-   
-      setMessages((prevMessages) => [...prevMessages, message]);
+    socket.on('newClient', (data) => {
+      setClients((prevClients) => [...prevClients, data.clientId]);
+    });
+    
+
+
+    socket.on('supportMessage', (data) => {
+      // alert(data.id +'<<<<<<<>>>>>>>>>>>>>>>');
+      const seeId = messagesSide.find(m=>m.id===data.id)
+
+      if(!seeId){
+        alert('veio aqui')
+        setMessagesSide((prevMessages) => [...prevMessages, `Client: ${data.message}`]);
+      }else{
+        alert('veio aqui2')
+      }
+
+      setMessages((prevMessages) => [...prevMessages, `Client: ${data.message}`]);
+      
     });
 
     return () => {
-      socket.off('message');
+      socket.off('newClient');
+      socket.off('supportMessage');
     };
   }, []);
-  socket.on('message', (message) => {
-    console.log(message)
-    setMessages((prevMessages) => [...prevMessages, message]);
-  });
+
+  const selectClient = (clientId) => {
+    setCurrentClientId(clientId);
+    setMessages([]);
+  };
+
   const sendMessage = () => {
-    if (response && currentUser) {
-  
-      socket.emit('msgtoSuport', { username: currentUser, text: response });
-      setResponse('');
+    alert(message)
+
+    if (message && currentClientId) {
+      alert('veio aqui')
+      socket.emit('supportMessage', { clientId: currentClientId, message });
+      setMessage('');
     }
   };
 
   return (
     <div>
-      <h1>Support Chat</h1>
-      <div>
-        {messages.map((msg, index) => (
-          <div key={index} style={{ marginBottom: '10px' }}>
-            <strong>{msg.username}</strong>: {msg.message}
-            <div>
-              <input 
-                type="text" 
-                placeholder="Type your response" 
-                value={response} 
-                onChange={(e) => setResponse(e.target.value)} 
-              />
-              <button onClick={() => { setCurrentUser(msg.username); sendMessage(); }}>Reply</button>
-            </div>
+      <h1>Chat Support</h1>
+      <div id="clients">
+        {clients.map((clientId, index) => (
+          <div
+            style={{marginRight:'20px',height:'100px',width:'200px', color:'#fff', backgroundColor: 'blue', cursor: 'pointer'}}
+            key={index} onClick={() => selectClient(clientId)}>
+            Client ID: {clientId}
           </div>
         ))}
       </div>
+      <div id="messages">
+        {messages.map((msg, index) => (
+
+          <p key={index}>{msg}</p>
+        ))}
+      </div>
+      <input
+        id="message"
+        type="text"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        placeholder="Type your message here"
+      />
+      <button onClick={sendMessage}>Send</button>
     </div>
   );
 }
 
-export default SupportApp;
+export default App;

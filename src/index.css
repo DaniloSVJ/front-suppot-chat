@@ -104,3 +104,83 @@ body {
 .main-input button:hover {
   background-color: #0e3050;
 }
+.app {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}.sidebar {
+  width: 25%;
+  background-color: #f0f0f0;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.sidebar h2 {
+  margin: 0;
+  padding: 10px 0;
+}
+
+.client {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+}
+
+.client:hover {
+  background-color: #e0e0e0;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+.chat-window {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.message {
+  padding: 5px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  background-color: #e0e0e0;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+}
+
+#message {
+  flex: 1;
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
