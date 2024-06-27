@@ -7,6 +7,8 @@ const socket = io('http://localhost:4000');
 function App() {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
+  const [blockSide, setblockSide] = useState([]);
+
   const [messagesSide, setMessagesSide] = useState([]);
   const [clients, setClients] = useState([]);
   const [currentClientId, setCurrentClientId] = useState('');
@@ -21,17 +23,13 @@ function App() {
 
 
     socket.on('supportMessage', (data) => {
-      // alert(data.id +'<<<<<<<>>>>>>>>>>>>>>>');
-      const seeId = messagesSide.find(m=>m.id===data.id)
 
-      if(!seeId){
-        alert('veio aqui')
-        setMessagesSide((prevMessages) => [...prevMessages, `Client: ${data.message}`]);
-      }else{
-        alert('veio aqui2')
-      }
-
-      setMessages((prevMessages) => [...prevMessages, `Client: ${data.message}`]);
+      const msgSide = {
+        id: data.id,
+        message: data.message
+      }; 
+      
+      setMessages((prevMessages) => [...prevMessages, msgSide]);
       
     });
 
@@ -39,6 +37,7 @@ function App() {
       socket.off('newClient');
       socket.off('supportMessage');
     };
+
   }, []);
 
   const selectClient = (clientId) => {
@@ -47,10 +46,9 @@ function App() {
   };
 
   const sendMessage = () => {
-    alert(message)
-
+    
     if (message && currentClientId) {
-      alert('veio aqui')
+     
       socket.emit('supportMessage', { clientId: currentClientId, message });
       setMessage('');
     }
@@ -70,8 +68,9 @@ function App() {
       </div>
       <div id="messages">
         {messages.map((msg, index) => (
-
-          <p key={index}>{msg}</p>
+          <div>
+            <p key={index}>{msg.message}</p>
+          </div>
         ))}
       </div>
       <input
